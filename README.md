@@ -28,17 +28,17 @@ we add +1 to the masks to account for using -1 as no element. include an +(# of 
 # Results
 
 ![No Beam Steering](/images/Figure_3.png)
-*Arrays without any beam steering*
+
 
 Beam steering was done through calculating distance from each element to focal point and setting phase accordingly. a hanning window was applied to element amplitudes to reduce side lobes.
 
 ![Beam Steering](/images/Figure_4.png)
-*Arrays any beam steering*
+
 
 dB version
 
 ![Beam Steering](/images/Figure_5.png)
-*Arrays any beam steering*
+
 
 # Assumptions:
 * Speed of sound in air of 343 m/s with density of 1.2 kg/m3 at 20C room temp.
