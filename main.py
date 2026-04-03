@@ -177,15 +177,15 @@ if __name__ == "__main__":
     kgrid.makeTime(medium.sound_speed)
 
     # defines arrays
-    arr1 = TransducerArray(kgrid, (100,100), (4,4), 13, 13)
-    arr2 = TransducerArray(kgrid, (100,400), (4,4), 13, 13)
+    arr1 = TransducerArray(kgrid, (100,100), (8,8), 13, 13)
+    arr2 = TransducerArray(kgrid, (100,400), (8,8), 13, 13)
 
     # defines point
     px, py = 500, 200
 
     # gets beam focus information
-    delay_mask1, amplitude_mask1 = arr1.beam_stear()
-    delay_mask2, amplitude_mask2 = arr2.beam_stear()
+    delay_mask1, amplitude_mask1 = arr1.beam_stear((px,py))
+    delay_mask2, amplitude_mask2 = arr2.beam_stear((px,py))
 
     # defines source and adds arrays to source
     source = kSource()
@@ -227,7 +227,10 @@ if __name__ == "__main__":
         kgrid.y_vec[-1] * 1e3,
     ]
     print(extent)
-    ax1.imshow(p_final, extent=extent, vmin=-1, vmax=1, cmap="RdBu_r")
+    p_clipped = np.maximum(np.abs(p_final), 1e-10)
+    spl = 20 * np.log10(p_clipped / 20e-6)
+    plt.imshow(spl, extent=extent, vmin=np.max(spl) -60, vmax=np.max(spl), cmap="viridis")
+    #ax1.imshow(p_final, extent=extent, vmin=-1, vmax=1, cmap="RdBu_r")
     # mark the beam steering target point
     target_x_mm, target_y_mm = kgrid.x_vec[px] * 1e3, kgrid.y_vec[py] * 1e3
     ax1.scatter(target_x_mm, target_y_mm, c='yellow', s=80, edgecolor='black', marker='o', label='Focal Point')
@@ -236,4 +239,5 @@ if __name__ == "__main__":
     ax1.set_ylabel("y-position [mm]")
     ax1.set_title("2D Pressure Plot")
     ax1.set_aspect("equal")
+    plt.colorbar(label='SPL [dB re 20µPa]')
     plt.show()
